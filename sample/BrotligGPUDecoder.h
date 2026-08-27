@@ -1,5 +1,5 @@
 // Brotli-G SDK 1.1 Sample
-// 
+//
 // Copyright(c) 2022 - 2024 Advanced Micro Devices, Inc. All rights reserved.
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
@@ -21,6 +21,5 @@
 
 #include "BrotligCommon.h"
 
-BROTLIG_ERROR DecodeGPU(bool useWarpDevice, uint32_t input_size, const uint8_t* input, uint32_t* output_size, uint8_t* output, double& time);
-
-
+BROTLIG_ERROR DecodeGPU(bool useWarpDevice, uint32_t input_size, const uint8_t* input, uint32_t* output_size,
+                        uint8_t* output, double& time);

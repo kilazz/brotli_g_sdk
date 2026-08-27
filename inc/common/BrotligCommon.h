@@ -1,5 +1,5 @@
 // Brotli-G SDK 1.1
-// 
+//
 // Copyright(c) 2022 - 2024 Advanced Micro Devices, Inc. All rights reserved.
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
@@ -21,8 +21,11 @@
 
 #define NOMINMAX
 
-#include <algorithm>
+#include <Windows.h>
 #include <assert.h>
+#include <d3d12.h>
+
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
@@ -32,33 +35,32 @@
 #include <iterator>
 #include <memory>
 #include <numeric>
+#include <queue>
+#include <set>
 #include <sstream>
 #include <string>
 #include <unordered_map>
-#include <vector>
 #include <variant>
-#include <queue>
-#include <set>
-#include <Windows.h>
+#include <vector>
 
-#include <d3d12.h>
-
-#include "common/BrotligFlags.h"
 #include "common/BrotligConstants.h"
+#include "common/BrotligFlags.h"
 
 // Compress error codes
-typedef enum {
+typedef enum
+{
     BROTLIG_OK = 0,
     BROTLIG_ABORTED,
-    BROTLIG_ERROR_MIN_PAGE_SIZE,            // Page size is less than the minimum allowed page size BROTLIG_MIN_PAGE_SIZE
-    BROTLIG_ERROR_MAX_PAGE_SIZE,            // Page size exceeds maximum allowed page size BROTLIG_MAX_PAGE_SIZE
-    BROTLIG_ERROR_MAX_NUM_PAGES,            // Number of pages numpages exceeds maximum number of pages allowed BROTLIG_MAX_NUM_PAGES
-    BROTLIG_ERROR_PRECON_MIN_TEX_WIDTH,     // Tex width is less than the minimum allowed tex width
-    BROTLIG_ERROR_PRECON_MAX_TEX_WIDTH,     // Tex width is greater than the maximum allowed tex width
-    BROTLIG_ERROR_PRECON_MIN_TEX_HEIGHT,    // Tex height is less than the minimumm allowed tex height
-    BROTLIG_ERROR_PRECON_MAX_TEX_HEIGHT,    // Tex height is greater than the maximum allowed tex height
-    BROTLIG_ERROR_PRECON_MIN_TEX_PITCH,     // Tex pitch is less than the minimum allowed tex pitch
-    BROTLIG_ERROR_PRECON_MAX_TEX_PITCH,     // Tex pitch is greater than the maximum allowed tex pitch
+    BROTLIG_ERROR_MIN_PAGE_SIZE,         // Page size is less than the minimum allowed page size BROTLIG_MIN_PAGE_SIZE
+    BROTLIG_ERROR_MAX_PAGE_SIZE,         // Page size exceeds maximum allowed page size BROTLIG_MAX_PAGE_SIZE
+    BROTLIG_ERROR_MAX_NUM_PAGES,         // Number of pages numpages exceeds maximum number of pages allowed
+                                         // BROTLIG_MAX_NUM_PAGES
+    BROTLIG_ERROR_PRECON_MIN_TEX_WIDTH,  // Tex width is less than the minimum allowed tex width
+    BROTLIG_ERROR_PRECON_MAX_TEX_WIDTH,  // Tex width is greater than the maximum allowed tex width
+    BROTLIG_ERROR_PRECON_MIN_TEX_HEIGHT, // Tex height is less than the minimumm allowed tex height
+    BROTLIG_ERROR_PRECON_MAX_TEX_HEIGHT, // Tex height is greater than the maximum allowed tex height
+    BROTLIG_ERROR_PRECON_MIN_TEX_PITCH,  // Tex pitch is less than the minimum allowed tex pitch
+    BROTLIG_ERROR_PRECON_MAX_TEX_PITCH,  // Tex pitch is greater than the maximum allowed tex pitch
     BROTLIG_ERROR_PRECON_MIN_TEX_MIPLEVELS, // Tex num mip levels is less than the minimum allowed mip levels
     BROTLIG_ERROR_PRECON_MAX_TEX_MIPLEVELS, // Tex num mip levels is greater than the maximum allowed mip levels
     BROTLIG_ERROR_PRECON_INCORRECT_FORMAT,  // Incorrect Texture format
@@ -67,19 +69,21 @@ typedef enum {
     BROTLIG_ERROR_GENERIC
 } BROTLIG_ERROR;
 
-typedef enum {
+typedef enum
+{
     BROTLIG_PROGRESS,
     BROTLIG_WARNING
 } BROTLIG_MESSAGE_TYPE;
 
 // Data formats
-typedef enum {
-    BROTLIG_DATA_FORMAT_UNKNOWN         = 0,
-    BROTLIG_DATA_FORMAT_BC1             = 1,
-    BROTLIG_DATA_FORMAT_BC2             = 2,
-    BROTLIG_DATA_FORMAT_BC3             = 3,
-    BROTLIG_DATA_FORMAT_BC4             = 4,
-    BROTLIG_DATA_FORMAT_BC5             = 5
+typedef enum
+{
+    BROTLIG_DATA_FORMAT_UNKNOWN = 0,
+    BROTLIG_DATA_FORMAT_BC1 = 1,
+    BROTLIG_DATA_FORMAT_BC2 = 2,
+    BROTLIG_DATA_FORMAT_BC3 = 3,
+    BROTLIG_DATA_FORMAT_BC4 = 4,
+    BROTLIG_DATA_FORMAT_BC5 = 5
 } BROTLIG_DATA_FORMAT;
 
 #if defined(WIN32) || defined(_WIN64)

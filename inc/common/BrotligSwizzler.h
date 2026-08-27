@@ -1,5 +1,5 @@
 // Brotli-G SDK 1.1
-// 
+//
 // Copyright(c) 2022 - 2024 Advanced Micro Devices, Inc. All rights reserved.
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
@@ -17,64 +17,57 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-
 #pragma once
 
 #include "common/BrotligBitWriter.h"
 #include "common/BrotligConstants.h"
 
-namespace BrotliG
+namespace BrotliG {
+class BrotligSwizzler
 {
-    class BrotligSwizzler
+public:
+    BrotligSwizzler(size_t num_bitstreams, size_t bssizes);
+
+    ~BrotligSwizzler();
+
+    inline void AppendToHeader(uint32_t n, uint32_t bits) { m_headerWriter->Write(n, (uint64_t)bits); }
+
+    void AppendBitstreamSizes();
+
+    inline void Append(uint32_t n, uint64_t bits, bool bsswitch = false)
     {
-    public:
-        BrotligSwizzler(size_t num_bitstreams, size_t bssizes);
+        m_writers.at(m_curindex)->Write(n, bits);
+        if (bsswitch)
+            BSSwitch();
+    }
 
-        ~BrotligSwizzler();
-
-        inline void AppendToHeader(uint32_t n, uint32_t bits) 
-        { 
-            m_headerWriter->Write(n, (uint64_t)bits); 
-        }
-
-        void AppendBitstreamSizes();
-
-        inline void Append(uint32_t n, uint64_t bits, bool bsswitch = false)
-        {
-            m_writers.at(m_curindex)->Write(n, bits);
-            if (bsswitch) BSSwitch();
-        }
-
-        inline void BSSwitch()
-        {
-            ++m_curindex;
-            if (m_curindex == m_numbitstreams)
-                m_curindex = 0;
-        }
-
-        inline void BSReset()
-        {
+    inline void BSSwitch()
+    {
+        ++m_curindex;
+        if (m_curindex == m_numbitstreams)
             m_curindex = 0;
-        }
+    }
 
-        void Clear();
+    inline void BSReset() { m_curindex = 0; }
 
-        void SetOutWriter(BrotligBitWriterLSB* outWriter, size_t outSize);
+    void Clear();
 
-        void SerializeHeader();
-        void SerializeBitstreams();
+    void SetOutWriter(BrotligBitWriterLSB* outWriter, size_t outSize);
 
-    private:
-        std::vector<uint8_t> m_headerStream;
-        std::vector<std::vector<uint8_t>> m_bitstreams;
+    void SerializeHeader();
+    void SerializeBitstreams();
 
-        BrotligBitWriterLSB* m_headerWriter;
-        std::vector<BrotligBitWriterLSB*> m_writers;
+private:
+    std::vector<uint8_t> m_headerStream;
+    std::vector<std::vector<uint8_t>> m_bitstreams;
 
-        BrotligBitWriterLSB* m_outWriter;
-        size_t m_outSize;
+    BrotligBitWriterLSB* m_headerWriter;
+    std::vector<BrotligBitWriterLSB*> m_writers;
 
-        size_t m_numbitstreams;
-        size_t m_curindex;
-    };
-}
+    BrotligBitWriterLSB* m_outWriter;
+    size_t m_outSize;
+
+    size_t m_numbitstreams;
+    size_t m_curindex;
+};
+} // namespace BrotliG

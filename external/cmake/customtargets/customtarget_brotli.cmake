@@ -1,5 +1,5 @@
 # Brotli-G SDK 1.1
-# 
+#
 # Copyright(c) 2022 - 2024 Advanced Micro Devices, Inc. All rights reserved.
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files(the "Software"), to deal
@@ -24,35 +24,35 @@
  get_filename_component(BROTLI_DIR ${BROTLI_PROJECT_DIR}/external/brotli ABSOLUTE)
 
  project(brotli C)
- 
- file(GLOB COMMON ${BROTLI_DIR}/c/common/*.c ${BROTLI_DIR}/c/common/*.h ${BROTLI_DIR}/c/include/brotli/port.h ${BROTLI_DIR}/c/include/brotli/types.h) 
+
+ file(GLOB COMMON ${BROTLI_DIR}/c/common/*.c ${BROTLI_DIR}/c/common/*.h ${BROTLI_DIR}/c/include/brotli/port.h ${BROTLI_DIR}/c/include/brotli/types.h)
  file(GLOB ENCODER ${BROTLI_DIR}/c/enc/*.c ${BROTLI_DIR}/c/enc/*.h ${BROTLI_DIR}/c/include/brotli/encode.h)
  file(GLOB DECODER ${BROTLI_DIR}/c/dec/*.c ${BROTLI_DIR}/c/dec/*.h ${BROTLI_DIR}/c/include/brotli/decoder.h)
- 
+
  add_library(brotli STATIC)
- 
+
  target_compile_features(brotli PUBLIC)
- 
+
  include_directories("${BROTLI_DIR}/c/include")
  include_directories("${BROTLI_DIR}/c/common")
  include_directories("${BROTLI_DIR}/c/enc")
  include_directories("${BROTLI_DIR}/c/dec")
- 
+
  source_group("Common"   FILES ${COMMON}   )
  source_group("Decoder"  FILES ${DECODER}  )
  source_group("Encoder"  FILES ${ENCODER}  )
 
  target_sources(brotli PRIVATE
 		${COMMON}
-		${ENCODER}   
+		${ENCODER}
 		${DECODER}
 		)
-		
+
  list(APPEND INCLUDE_PATHS "${BROTLI_DIR}/c/include")
  list(APPEND INCLUDE_PATHS "${BROTLI_DIR}/c/common")
  list(APPEND INCLUDE_PATHS "${BROTLI_DIR}/c/include")
- list(APPEND INCLUDE_PATHS "${BROTLI_DIR}/c/include") 
-		
+ list(APPEND INCLUDE_PATHS "${BROTLI_DIR}/c/include")
+
  target_include_directories(brotli INTERFACE
   "$<BUILD_INTERFACE:${includePath}>"
  )

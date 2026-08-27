@@ -1,5 +1,5 @@
 # Brotli-G SDK 1.1 Sample
-# 
+#
 # Copyright(c) 2022 - 2024 Advanced Micro Devices, Inc. All rights reserved.
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files(the "Software"), to deal
@@ -18,7 +18,7 @@
 # THE SOFTWARE.
 
 link_directories(
-    ${CMAKE_BINARY_DIR}/lib         # link in static libs 
+    ${CMAKE_BINARY_DIR}/lib # link in static libs
     )
 
 add_executable(brotlig_cli)
@@ -46,12 +46,12 @@ target_include_directories(brotlig_cli PUBLIC
     ${PROJECT_SOURCE_DIR}/inc/common
     ${PROJECT_SOURCE_DIR}/inc/decoder
     ${PROJECT_SOURCE_DIR}/inc/encoder
-	${PROJECT_SOURCE_DIR}/sample/external/dxc_2021_12_08/inc
+	${PROJECT_SOURCE_DIR}/sample/external/dxc_2026_07_29/inc
 	${PROJECT_SOURCE_DIR}/sample/external/DirectX-Headers/include/directx
 )
 
-target_link_directories( brotlig_cli PRIVATE 
-"${PROJECT_SOURCE_DIR}/sample/external/dxc_2021_12_08/lib/x64" 
+target_link_directories( brotlig_cli PRIVATE
+"${PROJECT_SOURCE_DIR}/sample/external/dxc_2026_07_29/lib/x64"
 )
 
 target_link_libraries(brotlig_cli
@@ -65,14 +65,13 @@ target_link_libraries(brotlig_cli
 )
 
 set_target_properties(brotlig_cli
-     PROPERTIES 
+     PROPERTIES
      OUTPUT_NAME "brotlig"
      VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)"
     )
-	
+
 add_custom_command(TARGET brotlig_cli POST_BUILD
 COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/src/decoder/BrotliGCompute.hlsl" $<TARGET_FILE_DIR:brotlig_cli>
-COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/sample/external/dxc_2021_12_08/bin/x64/dxil.dll" $<TARGET_FILE_DIR:brotlig_cli>
-COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/sample/external/dxc_2021_12_08/bin/x64/dxcompiler.dll" $<TARGET_FILE_DIR:brotlig_cli>
+COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/sample/external/dxc_2026_07_29/bin/x64/dxil.dll" $<TARGET_FILE_DIR:brotlig_cli>
+COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/sample/external/dxc_2026_07_29/bin/x64/dxcompiler.dll" $<TARGET_FILE_DIR:brotlig_cli>
 )
-

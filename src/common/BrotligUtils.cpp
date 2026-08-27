@@ -1,5 +1,5 @@
 // Brotli-G SDK 1.1
-// 
+//
 // Copyright(c) 2022 - 2024 Advanced Micro Devices, Inc. All rights reserved.
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
@@ -23,11 +23,11 @@
    See file LICENSE for detail or copy at https://opensource.org/licenses/MIT
 */
 
+#include "BrotligUtils.h"
+
 #include <cassert>
 
 #include "common/BrotligConstants.h"
-
-#include "BrotligUtils.h"
 
 size_t BrotliG::ComputeFileSize(std::string filename)
 {
@@ -46,7 +46,8 @@ size_t BrotliG::ComputeFileSize(std::string filename)
     return fileSize;
 }
 
-uint32_t BrotliG::Log2Floor(uint32_t x) {
+uint32_t BrotliG::Log2Floor(uint32_t x)
+{
     uint32_t result = 0;
     while (x) {
         x >>= 1;
@@ -73,109 +74,80 @@ uint32_t BrotliG::GetNumberOfProcessorsThreads()
 #endif
 }
 
-static void ComputeRLEZerosReps(
-    size_t reps,
-    uint8_t rle_codes[],
-    size_t& num_rle_codes,
-    uint8_t rle_extra_bits[],
-    size_t& num_rle_extra_bits)
+static void ComputeRLEZerosReps(size_t reps, uint8_t rle_codes[], size_t& num_rle_codes, uint8_t rle_extra_bits[],
+                                size_t& num_rle_extra_bits)
 {
     size_t minus = 0;
-    if (reps == 11)
-    {
+    if (reps == 11) {
         rle_codes[num_rle_codes++] = 0;
         rle_extra_bits[num_rle_extra_bits++] = 0;
         --reps;
     }
 
-    if (reps < 3)
-    {
-        while (reps--)
-        {
+    if (reps < 3) {
+        while (reps--) {
             rle_codes[num_rle_codes++] = 0;
             rle_extra_bits[num_rle_extra_bits++] = 0;
         }
-    }
-    else
-    {
-        while (true)
-        {
+    } else {
+        while (true) {
             minus = (reps > 10) ? 10 : reps;
             reps -= minus;
             rle_codes[num_rle_codes++] = BROTLI_REPEAT_ZERO_CODE_LENGTH;
             rle_extra_bits[num_rle_extra_bits++] = uint8_t(minus - 3);
-            if (reps < 3) break;
+            if (reps < 3)
+                break;
         }
 
-        while (reps--)
-        {
+        while (reps--) {
             rle_codes[num_rle_codes++] = 0;
             rle_extra_bits[num_rle_extra_bits++] = 0;
         }
     }
 }
 
-void ComputeRLEReps(
-    const uint8_t prev_value,
-    const uint8_t value,
-    size_t reps,
-    uint8_t rle_codes[],
-    size_t& num_rle_codes,
-    uint8_t rle_extra_bits[],
-    size_t& num_rle_extra_bits
-)
+void ComputeRLEReps(const uint8_t prev_value, const uint8_t value, size_t reps, uint8_t rle_codes[],
+                    size_t& num_rle_codes, uint8_t rle_extra_bits[], size_t& num_rle_extra_bits)
 {
     assert(reps > 0);
     size_t minus = 0;
-    if (prev_value != value)
-    {
+    if (prev_value != value) {
         rle_codes[num_rle_codes++] = value;
         rle_extra_bits[num_rle_extra_bits++] = 0;
         --reps;
     }
 
-    if (reps == 7)
-    {
+    if (reps == 7) {
         rle_codes[num_rle_codes++] = value;
         rle_extra_bits[num_rle_extra_bits++] = 0;
         --reps;
     }
 
-    if (reps < 3)
-    {
-        while (reps--)
-        {
+    if (reps < 3) {
+        while (reps--) {
             rle_codes[num_rle_codes++] = value;
             rle_extra_bits[num_rle_extra_bits++] = 0;
         }
-    }
-    else
-    {
+    } else {
 
-        while (true)
-        {
+        while (true) {
             minus = (reps > 6) ? 6 : reps;
             reps -= minus;
             rle_codes[num_rle_codes++] = BROTLI_REPEAT_PREVIOUS_CODE_LENGTH;
             rle_extra_bits[num_rle_extra_bits++] = uint8_t(minus - 3);
-            if (reps < 3) break;
+            if (reps < 3)
+                break;
         }
 
-        while (reps--)
-        {
+        while (reps--) {
             rle_codes[num_rle_codes++] = value;
             rle_extra_bits[num_rle_extra_bits++] = 0;
         }
     }
 }
 
-void BrotliG::ComputeRLECodes(
-    size_t size, 
-    uint8_t* data, 
-    uint8_t* rle_codes, 
-    size_t& num_rle_codes,
-    uint8_t* rle_extra_bits, 
-    size_t& num_rle_extra_bits)
+void BrotliG::ComputeRLECodes(size_t size, uint8_t* data, uint8_t* rle_codes, size_t& num_rle_codes,
+                              uint8_t* rle_extra_bits, size_t& num_rle_extra_bits)
 {
     bool use_rle_for_non_zeros = true;
     bool use_rle_for_zeros = true;
@@ -183,42 +155,22 @@ void BrotliG::ComputeRLECodes(
     // Compute rle codes
     uint8_t value = 0, prev_value = BROTLI_INITIAL_REPEATED_CODE_LENGTH;
     size_t i = 0, k = 0, reps = 0;
-    for (i = 0; i < size;)
-    {
+    for (i = 0; i < size;) {
         value = data[i];
 
         reps = 1;
-        if (i == 0)
-        {
+        if (i == 0) {
             rle_codes[num_rle_codes++] = value;
             rle_extra_bits[num_rle_extra_bits++] = 0;
-        }
-        else
-        {
+        } else {
             if ((value != 0 && use_rle_for_non_zeros) || (value == 0 && use_rle_for_zeros))
-                for (k = i + 1; k < size && data[k] == value; ++k) ++reps;
+                for (k = i + 1; k < size && data[k] == value; ++k)
+                    ++reps;
 
-            if (value == 0)
-            {
-                ComputeRLEZerosReps(
-                    reps,
-                    rle_codes,
-                    num_rle_codes,
-                    rle_extra_bits,
-                    num_rle_extra_bits
-                );
-            }
-            else
-            {
-                ComputeRLEReps(
-                    prev_value,
-                    value,
-                    reps,
-                    rle_codes,
-                    num_rle_codes,
-                    rle_extra_bits,
-                    num_rle_extra_bits
-                );
+            if (value == 0) {
+                ComputeRLEZerosReps(reps, rle_codes, num_rle_codes, rle_extra_bits, num_rle_extra_bits);
+            } else {
+                ComputeRLEReps(prev_value, value, reps, rle_codes, num_rle_codes, rle_extra_bits, num_rle_extra_bits);
             }
         }
 

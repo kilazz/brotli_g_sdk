@@ -1,5 +1,5 @@
 // Brotli-G SDK 1.1
-// 
+//
 // Copyright(c) 2022 - 2024 Advanced Micro Devices, Inc. All rights reserved.
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
@@ -18,50 +18,50 @@
 // THE SOFTWARE.
 
 #define const32_t static const uint
-#define DIV_ROUND_UP(a, b)  (((a) + (b) - 1) / (b))
+#define DIV_ROUND_UP(a, b) (((a) + (b) - 1) / (b))
 #define OVERLAP(x1, x2, y1, y2) (x1 < y2 && y1 < x2)
 
-const32_t LOG_NUM_LANES                                 = 5;	                //	number of bits for workgroup index
-const32_t NUM_LANES                                     = 1u << LOG_NUM_LANES;	//	workgroup is sized correspondingly
-const32_t CMD_GRP_SIZE                                  = 1;
+const32_t LOG_NUM_LANES = 5; // Number of bits for workgroup index
+const32_t NUM_LANES = 1u << LOG_NUM_LANES; // Workgroup is sized correspondingly (32 lanes)
+const32_t CMD_GRP_SIZE = 1;
 
-const32_t BROTLIG_WORK_PAGE_SIZE_UNIT                   = 32 * 1024;
-const32_t BROTLIG_WORK_STREAM_HEADER_SIZE               = 8;
-const32_t BROTLIG_WORK_STREAM_PRECON_HEADER_SIZE        = 8;
+const32_t BROTLIG_WORK_PAGE_SIZE_UNIT = 32 * 1024;
+const32_t BROTLIG_WORK_STREAM_HEADER_SIZE = 8;
+const32_t BROTLIG_WORK_STREAM_PRECON_HEADER_SIZE = 8;
 
-const32_t BROTLIG_NUM_CATEGORIES                        = 3;
+const32_t BROTLIG_NUM_CATEGORIES = 3;
 
-const32_t NIBBLE_TOTAL_BITS                             = 4;
-const32_t BYTE_TOTAL_BITS                               = 8;
-const32_t DWORD_TOTAL_BITS                              = 32;
-const32_t DWORD_TOTAL_BYTES                             = DWORD_TOTAL_BITS / BYTE_TOTAL_BITS;
-const32_t DWORD_TOTAL_NIBBLES                           = DWORD_TOTAL_BITS / NIBBLE_TOTAL_BITS;
-const32_t SHORT_TOTAL_BITS                              = 16;
-const32_t SHORT_TOTAL_BYTES                             = SHORT_TOTAL_BITS / BYTE_TOTAL_BITS;
-const32_t SHORT_TOTAL_NIBBLES                           = SHORT_TOTAL_BITS / NIBBLE_TOTAL_BITS;
+const32_t NIBBLE_TOTAL_BITS = 4;
+const32_t BYTE_TOTAL_BITS = 8;
+const32_t DWORD_TOTAL_BITS = 32;
+const32_t DWORD_TOTAL_BYTES = DWORD_TOTAL_BITS / BYTE_TOTAL_BITS;
+const32_t DWORD_TOTAL_NIBBLES = DWORD_TOTAL_BITS / NIBBLE_TOTAL_BITS;
+const32_t SHORT_TOTAL_BITS = 16;
+const32_t SHORT_TOTAL_BYTES = SHORT_TOTAL_BITS / BYTE_TOTAL_BITS;
+const32_t SHORT_TOTAL_NIBBLES = SHORT_TOTAL_BITS / NIBBLE_TOTAL_BITS;
 
-const32_t BROTLIG_NUM_LITERAL_SYMBOLS                   = 256;
-const32_t BROTLIG_EOS_COMMAND_SYMBOL                    = 704;
-const32_t BROTLIG_NUM_COMMAND_SYMBOLS                   = BROTLIG_EOS_COMMAND_SYMBOL + 24;
-const32_t BROTLIG_NUM_COMMAND_SYMBOLS_WITH_SENTINEL     = BROTLIG_NUM_COMMAND_SYMBOLS;
-const32_t BROTLIG_NUM_DISTANCE_SYMBOLS                  = 544;
-const32_t BROTLIG_NUM_MAX_SYMBOLS                       = BROTLIG_NUM_COMMAND_SYMBOLS_WITH_SENTINEL;
+const32_t BROTLIG_NUM_LITERAL_SYMBOLS = 256;
+const32_t BROTLIG_EOS_COMMAND_SYMBOL = 704;
+const32_t BROTLIG_NUM_COMMAND_SYMBOLS = 705 + 24; // 729 (0..703 commands, 704 sentinel, 705..728 insert-only)
+const32_t BROTLIG_NUM_COMMAND_SYMBOLS_WITH_SENTINEL = BROTLIG_NUM_COMMAND_SYMBOLS;
+const32_t BROTLIG_NUM_DISTANCE_SYMBOLS = 544;
+const32_t BROTLIG_NUM_MAX_SYMBOLS = BROTLIG_NUM_COMMAND_SYMBOLS_WITH_SENTINEL;
 
-const32_t BROTLIG_WINDOW_GAP                            = 16;
-const32_t BROTLIG_REPEAT_PREVIOUS_CODE_LENGTH           = 16;
-const32_t BROTLIG_REPEAT_ZERO_CODE_LENGTH               = 17;
-const32_t BROTLIG_MAX_HUFFMAN_CODE_BITSIZE_LOG          = 4;
-const32_t BROTLIG_MAX_HUFFMAN_CODE_BITSIZE              = 1u << BROTLIG_MAX_HUFFMAN_CODE_BITSIZE_LOG;
-const32_t BROTLIG_MAX_HUFFMAN_CODE_LENGTH               = BROTLIG_MAX_HUFFMAN_CODE_BITSIZE - 1;
+const32_t BROTLIG_WINDOW_GAP = 16;
+const32_t BROTLIG_REPEAT_PREVIOUS_CODE_LENGTH = 16;
+const32_t BROTLIG_REPEAT_ZERO_CODE_LENGTH = 17;
+const32_t BROTLIG_MAX_HUFFMAN_CODE_BITSIZE_LOG = 4;
+const32_t BROTLIG_MAX_HUFFMAN_CODE_BITSIZE = 1u << BROTLIG_MAX_HUFFMAN_CODE_BITSIZE_LOG;
+const32_t BROTLIG_MAX_HUFFMAN_CODE_LENGTH = BROTLIG_MAX_HUFFMAN_CODE_BITSIZE - 1;
 
-const32_t BROTLIG_LENGTH_ENCODER_SIZE                   = 18;
-const32_t BROTLIG_LENGTH_ENCODER_MAX_KEY_LENGTH         = 7;
-const32_t BROTLIG_LENGTH_ENCODER_MAX_EXTRA_LENGTH       = 3;
+const32_t BROTLIG_LENGTH_ENCODER_SIZE = 18;
+const32_t BROTLIG_LENGTH_ENCODER_MAX_KEY_LENGTH = 7;
+const32_t BROTLIG_LENGTH_ENCODER_MAX_EXTRA_LENGTH = 3;
 
-const32_t DECODER_LENGTH_SHIFT                          = SHORT_TOTAL_BITS - BROTLIG_MAX_HUFFMAN_CODE_BITSIZE_LOG;
+const32_t DECODER_LENGTH_SHIFT = SHORT_TOTAL_BITS - BROTLIG_MAX_HUFFMAN_CODE_BITSIZE_LOG;
 
-const32_t BROTLIG_PRECON_SWIZZLE_REGION_SIZE_IDX        = 1;
-const32_t BROTLIG_PRECON_SWIZZLE_REGION_SIZE            = (1u << BROTLIG_PRECON_SWIZZLE_REGION_SIZE_IDX);
+const32_t BROTLIG_PRECON_SWIZZLE_REGION_SIZE_IDX = 1;
+const32_t BROTLIG_PRECON_SWIZZLE_REGION_SIZE = (1u << BROTLIG_PRECON_SWIZZLE_REGION_SIZE_IDX);
 
 #ifdef USE_METACOMMAND_INTERFACE
 #define _RootSig                                                \
@@ -90,63 +90,116 @@ struct CmdLut
     uint copy_len_offset;
 };
 
-ByteAddressBuffer input     : register(t0);     // Input buffer
-RWByteAddressBuffer meta    : register(u0);     // Metadata buffer
-RWByteAddressBuffer output  : register(u1);     // Output buffer
+ByteAddressBuffer input : register(t0); // Input buffer
+RWByteAddressBuffer meta : register(u0); // Metadata buffer
+RWByteAddressBuffer output : register(u1); // Output buffer
 
 #ifdef USE_METACOMMAND_INTERFACE
 RWByteAddressBuffer scratch : register(u2);     // Scratch buffer
 #endif
 
-uint MaskLsbs(uint n) { return (1u << n) - 1; }
-min16uint MaskLsbs16(min16uint n) { return (min16uint (1) << n) - 1; }
-uint MaskLsbs(uint a, uint n) { return a & MaskLsbs(n); }
-min16uint MaskLsbs(min16uint a, uint n) { return a & MaskLsbs16(min16uint (n)); }
-//  dword addressing and masking
-uint MakeSizeTAddr(uint addr, uint bitlength = 8, uint sizeT = DWORD_TOTAL_BITS) {
+uint MaskLsbs(uint n)
+{
+    return (1u << n) - 1;
+}
+
+min16uint MaskLsbs16(min16uint n)
+{
+    return (min16uint(1) << n) - 1;
+}
+
+uint MaskLsbs(uint a, uint n)
+{
+    return a & MaskLsbs(n);
+}
+
+min16uint MaskLsbs(min16uint a, uint n)
+{
+    return a & MaskLsbs16(min16uint(n));
+}
+
+uint MakeSizeTAddr(uint addr, uint bitlength = 8, uint sizeT = DWORD_TOTAL_BITS)
+{
     return addr / (sizeT / bitlength);
 }
-uint MakeAlignAddr(uint addr, uint bitlength = 8, uint sizeT = DWORD_TOTAL_BITS) {
+
+uint MakeAlignAddr(uint addr, uint bitlength = 8, uint sizeT = DWORD_TOTAL_BITS)
+{
     return addr & -(sizeT / bitlength);
 }
-uint MakeAlignShift(uint addr, uint bitlength = 8, uint sizeT = DWORD_TOTAL_BITS) {
+
+uint MakeAlignShift(uint addr, uint bitlength = 8, uint sizeT = DWORD_TOTAL_BITS)
+{
     return (addr & ((sizeT / bitlength) - 1)) * bitlength;
 }
+
 uint MakeReadAlignData(uint addr, uint data, uint bitlength = 8, uint sizeT = DWORD_TOTAL_BITS)
 {
     return (data >> MakeAlignShift(addr, bitlength, sizeT)) & MaskLsbs(bitlength);
 }
+
 uint MakeWriteAlignData(uint addr, uint data, uint bitlength = 8, uint sizeT = DWORD_TOTAL_BITS)
 {
     return (data & MaskLsbs(bitlength)) << MakeAlignShift(addr, bitlength, sizeT);
 }
+
 uint bfe(uint data, uint pos, uint n, uint base = 0)
 {
     return ((data >> pos) & MaskLsbs(n)) + base;
 }
-struct BitField {
+
+struct BitField
+{
     uint d;
-    uint bit(uint from, uint to = 0) // inclusive, from <= to < 31
+    uint bit(uint from, uint to = 0)
     {
         uint s = min(from, 31);
         uint e = max(s, to);
-        uint m = uint (-1) >> (31 - e + s);
+        uint m = uint(-1) >> (31 - e + s);
         return (d >> s) & m;
-    };
+    }
 };
-uint GetBitSize(uint num) { return (firstbithigh(num - 1) + 1) % DWORD_TOTAL_BITS; };
-uint DivRoundUp(uint num, uint div) { return (num + div - 1) / div; };
-uint2 __div3correct(uint num) { num += (num & 3) == 3; return uint2 (num >> 2, num & 3); };
-min16uint2 __div3correct(min16uint num) { num += (num & 3) == 3; return min16uint2 (num >> 2, num & 3); };
-min16uint2 Div3bit8(min16uint num) { return __div3correct((num * 0x55 + (num >> 2)) >> 6); }
-// please note that 8bit * 0x155 > 16bit hence uint
-uint2 Div3bit14(uint num) { return __div3correct((num * 0x15555) >> 16); }
 
-min16uint BitTable(uint index, uint fieldlength, uint table) {
-    return min16uint (table >> (index * fieldlength)) & min16uint (MaskLsbs(fieldlength));
+uint GetBitSize(uint num)
+{
+    return (firstbithigh(num - 1) + 1) % DWORD_TOTAL_BITS;
 }
-min16uint BitTable(uint index, uint fieldlength, uint64_t table) {
-    return min16uint (table >> (index * fieldlength)) & min16uint (MaskLsbs(fieldlength));
+
+uint DivRoundUp(uint num, uint div)
+{
+    return (num + div - 1) / div;
+}
+
+uint2 __div3correct(uint num)
+{
+    num += (num & 3) == 3;
+    return uint2(num >> 2, num & 3);
+}
+
+min16uint2 __div3correct(min16uint num)
+{
+    num += (num & 3) == 3;
+    return min16uint2(num >> 2, num & 3);
+}
+
+min16uint2 Div3bit8(min16uint num)
+{
+    return __div3correct((num * 0x55 + (num >> 2)) >> 6);
+}
+
+uint2 Div3bit14(uint num)
+{
+    return __div3correct((num * 0x15555) >> 16);
+}
+
+min16uint BitTable(uint index, uint fieldlength, uint table)
+{
+    return min16uint(table >> (index * fieldlength)) & min16uint(MaskLsbs(fieldlength));
+}
+
+min16uint BitTable(uint index, uint fieldlength, uint64_t table)
+{
+    return min16uint(table >> (index * fieldlength)) & min16uint(MaskLsbs(fieldlength));
 }
 
 inline uint ByteLoad(uint addr)
@@ -192,8 +245,8 @@ int ActiveIndexPrevious(const bool cond, uint laneIx)
     return firstbithigh(WaveActiveBallot(cond).x & MaskLsbs(laneIx));
 }
 
-struct DecoderState {
-
+struct DecoderState
+{
     uint readPointer;
     min16uint validBits;
     min16uint prefetched;
@@ -211,29 +264,38 @@ struct DecoderState {
             readPointer += DWORD_TOTAL_BYTES * stride;
         }
     }
-    void Init(uint i) {
+
+    void Init(uint i)
+    {
         LANE = WaveGetLaneIndex();
         uint2 tmp = input.Load2(i);
         validBits = DWORD_TOTAL_BITS * 2;
         hold = (uint64_t(tmp.y) << DWORD_TOTAL_BITS) | tmp.x;
         readPointer = i + DWORD_TOTAL_BYTES * 2;
-        // FetchNextDword (true);
     }
-    void DropBitsNoFetch(uint size, bool en) {
+
+    void DropBitsNoFetch(uint size, bool en)
+    {
         size = en ? size : 0;
         hold >>= size;
-        validBits -= min16uint (size);
+        validBits -= min16uint(size);
     }
-    void DropBits(uint size, bool en) {
+
+    void DropBits(uint size, bool en)
+    {
         size = en ? size : 0;
         hold >>= size;
-        validBits -= min16uint (size);
+        validBits -= min16uint(size);
         FetchNextDword(en);
     }
-    uint GetBits(uint size = 32) {
-        return uint (hold) & (size == 32 ? -1 : MaskLsbs(size));
+
+    uint GetBits(uint size = 32)
+    {
+        return uint(hold) & (size == 32 ? -1 : MaskLsbs(size));
     }
-    uint GetAndDropBits(uint size, bool en) {
+
+    uint GetAndDropBits(uint size, bool en)
+    {
         uint retval = en ? GetBits(size) : 0;
         DropBits(size, en);
         return retval;
@@ -303,21 +365,23 @@ const32_t DICTIONARY_COMPACT_LITERAL_SIZE = DIV_ROUND_UP(BROTLIG_NUM_LITERAL_SYM
 const32_t DICTIONARY_COMPACT_DISTANCE_SIZE = DIV_ROUND_UP(BROTLIG_NUM_DISTANCE_SYMBOLS, 3);
 const32_t DICTIONARY_COMPACT_COMMAND_SIZE = DIV_ROUND_UP(BROTLIG_NUM_COMMAND_SYMBOLS, 3);
 const32_t DICTIONARY_COMPACT_TOTAL_SIZE = DICTIONARY_COMPACT_LITERAL_SIZE +
-                                          DICTIONARY_COMPACT_DISTANCE_SIZE +
-                                          DICTIONARY_COMPACT_COMMAND_SIZE;
+                                             DICTIONARY_COMPACT_DISTANCE_SIZE +
+                                             DICTIONARY_COMPACT_COMMAND_SIZE;
 
 groupshared uint gDictionary[DICTIONARY_COMPACT_TOTAL_SIZE];
+
 uint GetRange(uint type)
 {
     return type == 0 ? BROTLIG_NUM_LITERAL_SYMBOLS :
-        type == 1 ? BROTLIG_NUM_COMMAND_SYMBOLS :
-        BROTLIG_NUM_DISTANCE_SYMBOLS;
+           type == 1 ? BROTLIG_NUM_COMMAND_SYMBOLS :
+                       BROTLIG_NUM_DISTANCE_SYMBOLS;
 }
 
 uint GetBase(uint type)
 {
-    return type == 0 ? 0 : type == 1 ? DICTIONARY_COMPACT_LITERAL_SIZE :
-        DICTIONARY_COMPACT_LITERAL_SIZE + DICTIONARY_COMPACT_COMMAND_SIZE;
+    return type == 0 ? 0 :
+           type == 1 ? DICTIONARY_COMPACT_LITERAL_SIZE :
+                       DICTIONARY_COMPACT_LITERAL_SIZE + DICTIONARY_COMPACT_COMMAND_SIZE;
 }
 
 void ClearDictionary(uint type, uint laneIx)
@@ -336,7 +400,8 @@ bool CheckDictionaryAddress(uint type, uint addr, uint data, out uint ix, out ui
     if (type)
         a = Div3bit14(addr);
     else
-        a = uint2 (addr / DWORD_TOTAL_BYTES, addr % DWORD_TOTAL_BYTES);
+        a = uint2(addr / DWORD_TOTAL_BYTES, addr % DWORD_TOTAL_BYTES);
+
     ix = a.x;
     sh = a.y * __field;
     dt = (data & MaskLsbs(__field)) << sh;
@@ -352,9 +417,8 @@ void SetSymbol(uint type, uint addr, min16uint data)
         return;
 
     InterlockedOr(gDictionary[base + ix], dt);
-
     GroupMemoryBarrierWithGroupSync();
-};
+}
 
 min16uint GetSymbol(uint type, uint addr)
 {
@@ -365,12 +429,12 @@ min16uint GetSymbol(uint type, uint addr)
         return 0;
 
     dt = gDictionary[base + ix];
-    return min16uint (dt >> sh) & MaskLsbs16(type ? 10 : 8);
+    return min16uint(dt >> sh) & MaskLsbs16(type ? 10 : 8);
 }
 
 #define SEPARATE_SYMBOL_TABLE
-// 144 * 8 packed 4-bit lengths for symbols
 groupshared uint gSymbolLengths[SYMBOL_LENGTHS_DWORDS];
+
 void SymbolLengthsReset(uint laneIx)
 {
     for (uint i = laneIx; i < SYMBOL_LENGTHS_DWORDS; i += NUM_LANES)
@@ -392,38 +456,42 @@ struct SymbolLengths
 {
     uint __data[DIV_ROUND_UP(SYMBOL_LENGTHS_DWORDS, NUM_LANES)];
 
-    void Copy(uint row, uint laneIx) {
+    void Copy(uint row, uint laneIx)
+    {
         uint addr = row * NUM_LANES + laneIx;
         uint data = addr < SYMBOL_LENGTHS_DWORDS ? gSymbolLengths[addr] : 0;
         __data[row] = data;
-    };
-    uint SafeGet(uint addr) {
+    }
+
+    uint SafeGet(uint addr)
+    {
         uint da = MakeSizeTAddr(addr, BROTLIG_MAX_HUFFMAN_CODE_BITSIZE_LOG);
         uint p1 = WaveReadLaneAt(__data[0], da % NUM_LANES);
         uint p2 = WaveReadLaneAt(__data[1], da % NUM_LANES);
         uint p3 = WaveReadLaneAt(__data[2], da % NUM_LANES);
         uint dd = da / NUM_LANES == 0 ? p1 : da / NUM_LANES == 1 ? p2 : p3;
         return MakeReadAlignData(addr, dd, BROTLIG_MAX_HUFFMAN_CODE_BITSIZE_LOG);
-    };
-    uint LaneGet(uint addr) {
+    }
+
+    uint LaneGet(uint addr)
+    {
         uint da = MakeSizeTAddr(addr, BROTLIG_MAX_HUFFMAN_CODE_BITSIZE_LOG);
         uint ra = da / NUM_LANES;
         uint dd = ra == 0 ? __data[0] : ra == 1 ? __data[1] : __data[2];
         uint pp = WaveReadLaneAt(dd, da % NUM_LANES);
         return MakeReadAlignData(addr, pp, BROTLIG_MAX_HUFFMAN_CODE_BITSIZE_LOG);
-    };
-    bool IsSingleLane(const uint tSize) {
+    }
+
+    bool IsSingleLane(const uint tSize)
+    {
         return tSize <= NUM_LANES * DWORD_TOTAL_BITS / BROTLIG_MAX_HUFFMAN_CODE_BITSIZE_LOG;
-    };
+    }
 };
 
 uint HuffmanDefineRegions(out uint offset, uint number, uint bitlength)
 {
     const32_t GUARD_BITS = 1;
-
-    //  generate offsets into symbol table for each length for sorting
     offset = WavePrefixSum(number);
-
     uint increment = number << (SHORT_TOTAL_BITS - bitlength - GUARD_BITS);
     return WavePrefixSum(increment);
 }
@@ -468,12 +536,10 @@ struct HuffmanDecoder
         1u) << __field) |
         1u) << __field) >> 1;
 
-    uint Init(uint number, uint laneIx) {
-
+    uint Init(uint number, uint laneIx)
+    {
         uint src = 0xfffff000;
         uint offset = CreateCompactedHuffmanSearchTable(number, src, laneIx);
-
-#define DO_NOT_PREPARE_QUICK_SEARCH_DATA
         return offset;
     }
 
@@ -486,7 +552,11 @@ struct InlineDecoder
 {
     uint __table;
 
-    void Reset() { __table = 0; };
+    void Reset()
+    {
+        __table = 0;
+    }
+
     void Init(uint t, uint sel, uint laneIx)
     {
         if (sel)
@@ -496,12 +566,13 @@ struct InlineDecoder
         }
         else
             __table = laneIx < NUM_LANES / 2 ? t : __table;
-    };
+    }
+
     min16uint Decode(uint sel, uint type, uint key, out uint length)
     {
         if (sel)
             sel = NUM_LANES / 2;
-        min16uint ref = min16uint ((reversebits(key) >> 1) >> 16);
+        min16uint ref = min16uint((reversebits(key) >> 1) >> 16);
         min16uint offset = 0, code = 0;
         length = BROTLIG_MAX_HUFFMAN_CODE_BITSIZE;
         bool done = false;
@@ -510,20 +581,20 @@ struct InlineDecoder
         for (uint i = 0; i < BROTLIG_MAX_HUFFMAN_CODE_BITSIZE; i++)
         {
             uint d = WaveReadLaneAt(__table, sel + i);
-            min16uint newcode = min16uint (d >> SHORT_TOTAL_BITS);
-            offset = done ? offset : min16uint (d & MaskLsbs(SHORT_TOTAL_BITS));
+            min16uint newcode = min16uint(d >> SHORT_TOTAL_BITS);
+            offset = done ? offset : min16uint(d & MaskLsbs(SHORT_TOTAL_BITS));
             done = ref < newcode;
             code = done ? code : newcode;
             if (WaveActiveAllTrue(done))
                 break;
         }
-        uint l = (uint (offset) >> DECODER_LENGTH_SHIFT) &
+        uint l = (uint(offset) >> DECODER_LENGTH_SHIFT) &
             MaskLsbs(BROTLIG_MAX_HUFFMAN_CODE_BITSIZE_LOG);
-        length = uint (l);
-        offset = (offset & min16uint (MaskLsbs(DECODER_LENGTH_SHIFT))) +
-            ((ref - code) >> min16uint (SHORT_TOTAL_BITS - 1 - l));
+        length = uint(l);
+        offset = (offset & min16uint(MaskLsbs(DECODER_LENGTH_SHIFT))) +
+            ((ref - code) >> min16uint(SHORT_TOTAL_BITS - 1 - l));
         return GetSymbol(type, offset);
-    };
+    }
 };
 
 static InlineDecoder SearchTables[2];
@@ -531,7 +602,6 @@ static InlineDecoder SearchTables[2];
 struct BaseSymbolTable
 {
     HuffmanDecoder dec;
-
     const32_t sMaxSymbols = BROTLIG_NUM_MAX_SYMBOLS;
 
     uint HuffmanInflateTable(uint type, uint symbol, uint length, uint offset, uint laneIx)
@@ -549,21 +619,20 @@ struct BaseSymbolTable
             if (same)
             {
                 offset += offs;
-                // retv = mask;
             }
             retv = leng == laneIx ? countbits(mask) : retv;
 
             toDo &= ~mask;
         }
         if (length)
-            SetSymbol(type, offset, min16uint (symbol));
+            SetSymbol(type, offset, min16uint(symbol));
 
         return retv;
     }
 
     void BuildHuffmanTable(uint type, uint off, uint tSize, uint laneIx)
     {
-        uint symbol, length, offset, same;
+        uint symbol, length, offset;
 
         off = WaveReadLaneAt(off, laneIx - 1);
 
@@ -574,9 +643,6 @@ struct BaseSymbolTable
 
         ClearDictionary(type, laneIx);
 
-        symbol = laneIx;
-        uint row = 0x3020;
-        uint i = 0;
         for (symbol = laneIx; WaveActiveAnyTrue(symbol < tSize); symbol += NUM_LANES)
         {
             length = lenTable.LaneGet(symbol);
@@ -598,11 +664,12 @@ groupshared BaseSymbolTable gLookup;
 
 uint FixedCodeLenCounts(uint laneIx, uint nsym, uint tree_select)
 {
-    const32_t length_counts[4][5] = {
-                                        {0, 2, 0, 0, 0},
-                                        {0, 1, 2, 0, 0},
-                                        {0, 0, 4, 0, 0},
-                                        {0, 1, 1, 2, 0}
+    const32_t length_counts[4][5] =
+    {
+        { 0, 2, 0, 0, 0 },
+        { 0, 1, 2, 0, 0 },
+        { 0, 0, 4, 0, 0 },
+        { 0, 1, 1, 2, 0 }
     };
 
     uint table_index = nsym < 4 ? nsym - 2 : tree_select ? 3 : 2;
@@ -612,10 +679,8 @@ uint FixedCodeLenCounts(uint laneIx, uint nsym, uint tree_select)
 uint ReadSymbolCodeLengths(uint type, inout DecoderState bs, uint numCodes, uint tSize)
 {
     uint laneIx = bs.LANE;
-
     gLookup.dec.Reset(laneIx);
 
-    //  retrieve the bitlenghts
     uint lengths = bs.GetAndDropBits(5, laneIx < numCodes);
     uint swizzle = laneIx == 0 ? 4 :
         laneIx == 5 ? 5 :
@@ -626,12 +691,9 @@ uint ReadSymbolCodeLengths(uint type, inout DecoderState bs, uint numCodes, uint
     lengths = WaveReadLaneAt(lengths, swizzle);
     lengths &= laneIx < BROTLIG_LENGTH_ENCODER_SIZE ? 0xf : 0;
 
-    //  build histogram
     uint hist = WaveHistogram(lengths, lengths && laneIx < BROTLIG_LENGTH_ENCODER_SIZE, laneIx);
 
-    //  build key lookup tables
     InlineDecoder dec = { 0xfffff000 };
-
     hist = CreateCompactedHuffmanSearchTable(hist, dec.__table, laneIx);
     hist = WaveReadLaneAt(hist, lengths - 1);
     gLookup.HuffmanInflateTable(type, laneIx, lengths, hist, laneIx);
@@ -641,15 +703,15 @@ uint ReadSymbolCodeLengths(uint type, inout DecoderState bs, uint numCodes, uint
     uint rle = 0;
     uint saved = -1;
     uint offset = 0;
+    uint iterGuard = 0;
 
-    for (uint ptr = 0; WaveActiveAnyTrue(ptr < tSize);
+    for (uint ptr = 0; WaveActiveAnyTrue(ptr < tSize) && ++iterGuard < 4096;
         ptr = WaveReadLaneAt(ptr + rle, NUM_LANES - 1))
     {
         uint keylen;
         uint key = bs.GetBits(BROTLIG_LENGTH_ENCODER_MAX_KEY_LENGTH + BROTLIG_LENGTH_ENCODER_MAX_EXTRA_LENGTH);
 
         uint symbol = dec.Decode(0, type, key, keylen);
-
         key >>= keylen;
 
         uint lastIx = ActiveIndexPrevious(symbol != BROTLIG_REPEAT_PREVIOUS_CODE_LENGTH, laneIx);
@@ -657,18 +719,18 @@ uint ReadSymbolCodeLengths(uint type, inout DecoderState bs, uint numCodes, uint
 
         switch (symbol)
         {
-        case BROTLIG_REPEAT_PREVIOUS_CODE_LENGTH:
-            symbol = repeat; // >= BROTLIG_REPEAT_PREVIOUS_CODE_LENGTH ? 0 : repeat;
-            rle = 3 + (key & 3);
-            keylen += 2;
-            break;
-        case BROTLIG_REPEAT_ZERO_CODE_LENGTH:
-            symbol = 0;
-            rle = 3 + (key & 7);
-            keylen += 3;
-            break;
-        default:
-            rle = 1;
+            case BROTLIG_REPEAT_PREVIOUS_CODE_LENGTH:
+                symbol = repeat;
+                rle = 3 + (key & 3);
+                keylen += 2;
+                break;
+            case BROTLIG_REPEAT_ZERO_CODE_LENGTH:
+                symbol = 0;
+                rle = 3 + (key & 7);
+                keylen += 3;
+                break;
+            default:
+                rle = 1;
         }
         symbol = symbol < BROTLIG_REPEAT_PREVIOUS_CODE_LENGTH ? symbol : 0;
 
@@ -685,7 +747,6 @@ uint ReadSymbolCodeLengths(uint type, inout DecoderState bs, uint numCodes, uint
         offset += WaveHistogram(symbol, _rle, true, laneIx);
 
         saved = WaveReadLaneAt(symbol, NUM_LANES - 1);
-
         bs.DropBits(keylen, ptr < tSize);
     }
     return offset;
@@ -696,7 +757,6 @@ struct SymbolTable : BaseSymbolTable
     void loadtrivial(uint type, inout DecoderState bs, uint tSize, uint nsym)
     {
         uint laneIx = bs.LANE;
-
         uint max_bits = firstbithigh(tSize - 1) + 1;
         uint sym = bs.GetAndDropBits(max_bits, laneIx == 0);
 
@@ -710,7 +770,7 @@ struct SymbolTable : BaseSymbolTable
         else
             SearchTables[1].Init(_t, type & 1, laneIx);
 
-        SetSymbol(type, laneIx, min16uint (sym));
+        SetSymbol(type, laneIx, min16uint(sym));
     }
 
     void loadsimple(uint type, inout DecoderState bs, uint tSize, uint nsym, uint tree_select)
@@ -735,13 +795,12 @@ struct SymbolTable : BaseSymbolTable
         uint max_bits = firstbithigh(tSize - 1) + 1;
         uint sym = bs.GetAndDropBits(max_bits, laneIx < nsym);
 
-        SetSymbol(type, laneIx, min16uint (sym));
+        SetSymbol(type, laneIx, min16uint(sym));
     }
 
     void loadcomplex(uint type, inout DecoderState bs, uint tSize, uint numCodes)
     {
         uint laneIx = bs.LANE;
-
         uint count = ReadSymbolCodeLengths(type, bs, numCodes, tSize);
 
         uint _t = 0xfffff000;
@@ -752,16 +811,11 @@ struct SymbolTable : BaseSymbolTable
             SearchTables[1].Init(_t, type & 1, laneIx);
 
         BuildHuffmanTable(type, off, tSize, laneIx);
-
-        uint lastPtr = WaveReadLaneAt(WavePrefixSum(count), 16);
-
-        uint space = sMaxSymbols - lastPtr - 1;
     }
 
     void ReadHuffmanCode(uint type, inout DecoderState bs, uint tSize)
     {
         uint laneIx = bs.LANE;
-
         uint data = bs.GetBits();
 
         BitField treeheader;
@@ -776,15 +830,15 @@ struct SymbolTable : BaseSymbolTable
 
         switch (treeheader.bit(0, 1))
         {
-        case 0:
-            loadtrivial(type, bs, tSize, nSym);
-            break;
-        case 1:
-            loadsimple(type, bs, tSize, nSym + 1, tSel);
-            break;
-        case 2:
-            loadcomplex(type, bs, tSize, nCom);
-            break;
+            case 0:
+                loadtrivial(type, bs, tSize, nSym);
+                break;
+            case 1:
+                loadsimple(type, bs, tSize, nSym + 1, tSel);
+                break;
+            case 2:
+                loadcomplex(type, bs, tSize, nCom);
+                break;
         }
     }
 };
@@ -840,58 +894,58 @@ struct ConditionerParams
             gOffsets_subblocks[j] = 0;
             gOffsets_substreams[j] = 0;
             gColor_subblocks[j] = 0;
-            
+
             gMip_widths[j] = 0;
             gMip_heights[j] = 0;
             gMip_pitches[j] = 0;
             gOffsets_mipbytes[j] = 0;
-            gOffsets_mipbytes[j] = 0;
+            gOffsets_mipblocks[j] = 0;
         }
-        
+
         switch (format)
         {
-        case 1:
-            blocksizebytes = 8;
-            num_subblocks = 3;
-            num_colorsubblocks = 2;
-            gSizes_subblocks[laneIx] = (laneIx == 0) ? 2 : (laneIx == 1) ? 2 : (laneIx == 2) ? 4 : 0;
-            gColor_subblocks[laneIx] = (laneIx == 0) ? 0 : (laneIx == 1) ? 1 : 0;
-            break;
-        case 2:
-            blocksizebytes = 16;
-            num_subblocks = 4;
-            num_colorsubblocks = 2;
-            gSizes_subblocks[laneIx] = (laneIx == 0) ? 8 : (laneIx == 1) ? 2 : (laneIx == 2) ? 2 : (laneIx == 3) ? 4 : 0;
-            gColor_subblocks[laneIx] = (laneIx == 0) ? 1 : (laneIx == 1) ? 2 : 0;
-            break;
-        case 3:
-            blocksizebytes = 16;
-            num_subblocks = 6;
-            num_colorsubblocks = 2;
-            gSizes_subblocks[laneIx] = (laneIx == 0) ? 1 : (laneIx == 1) ? 1 : (laneIx == 2) ? 6 : (laneIx == 3) ? 2 : (laneIx == 4) ? 2 : (laneIx == 5) ? 4 : 0;
-            gColor_subblocks[laneIx] = (laneIx == 0) ? 3 : (laneIx == 1) ? 4 : 0;
-            break;
-        case 4:
-            blocksizebytes = 8;
-            num_subblocks = 3;
-            num_colorsubblocks = 2;
-            gSizes_subblocks[laneIx] = (laneIx == 0) ? 1 : (laneIx == 1) ? 1 : (laneIx == 2) ? 6 : 0;
-            gColor_subblocks[laneIx] = (laneIx == 0) ? 0 : (laneIx == 1) ? 1 : 0;
-            break;
-        case 5:
-            blocksizebytes = 16;
-            num_subblocks = 6;
-            num_colorsubblocks = 4;
-            gSizes_subblocks[laneIx] = (laneIx == 0) ? 1 : (laneIx == 1) ? 1 : (laneIx == 2) ? 6 : (laneIx == 3) ? 1 : (laneIx == 4) ? 1 : (laneIx == 5) ? 6 : 0;
-            gColor_subblocks[laneIx] = (laneIx == 0) ? 0 : (laneIx == 1) ? 1 : (laneIx == 2) ? 3 : (laneIx == 3) ? 4 : 0;
-            break;
-        default:
-            blocksizebytes = 1;
-            num_subblocks = 1;
-            num_colorsubblocks = 0;
-            gSizes_subblocks[laneIx] = (laneIx == 0) ? 1 : 0;
-            gColor_subblocks[laneIx] = 0;
-            break;
+            case 1:
+                blocksizebytes = 8;
+                num_subblocks = 3;
+                num_colorsubblocks = 2;
+                gSizes_subblocks[laneIx] = (laneIx == 0) ? 2 : (laneIx == 1) ? 2 : (laneIx == 2) ? 4 : 0;
+                gColor_subblocks[laneIx] = (laneIx == 0) ? 0 : (laneIx == 1) ? 1 : 0;
+                break;
+            case 2:
+                blocksizebytes = 16;
+                num_subblocks = 4;
+                num_colorsubblocks = 2;
+                gSizes_subblocks[laneIx] = (laneIx == 0) ? 8 : (laneIx == 1) ? 2 : (laneIx == 2) ? 2 : (laneIx == 3) ? 4 : 0;
+                gColor_subblocks[laneIx] = (laneIx == 0) ? 1 : (laneIx == 1) ? 2 : 0;
+                break;
+            case 3:
+                blocksizebytes = 16;
+                num_subblocks = 6;
+                num_colorsubblocks = 2;
+                gSizes_subblocks[laneIx] = (laneIx == 0) ? 1 : (laneIx == 1) ? 1 : (laneIx == 2) ? 6 : (laneIx == 3) ? 2 : (laneIx == 4) ? 2 : (laneIx == 5) ? 4 : 0;
+                gColor_subblocks[laneIx] = (laneIx == 0) ? 3 : (laneIx == 1) ? 4 : 0;
+                break;
+            case 4:
+                blocksizebytes = 8;
+                num_subblocks = 3;
+                num_colorsubblocks = 2;
+                gSizes_subblocks[laneIx] = (laneIx == 0) ? 1 : (laneIx == 1) ? 1 : (laneIx == 2) ? 6 : 0;
+                gColor_subblocks[laneIx] = (laneIx == 0) ? 0 : (laneIx == 1) ? 1 : 0;
+                break;
+            case 5:
+                blocksizebytes = 16;
+                num_subblocks = 6;
+                num_colorsubblocks = 4;
+                gSizes_subblocks[laneIx] = (laneIx == 0) ? 1 : (laneIx == 1) ? 1 : (laneIx == 2) ? 6 : (laneIx == 3) ? 1 : (laneIx == 4) ? 1 : (laneIx == 5) ? 6 : 0;
+                gColor_subblocks[laneIx] = (laneIx == 0) ? 0 : (laneIx == 1) ? 1 : (laneIx == 2) ? 3 : (laneIx == 3) ? 4 : 0;
+                break;
+            default:
+                blocksizebytes = 1;
+                num_subblocks = 1;
+                num_colorsubblocks = 0;
+                gSizes_subblocks[laneIx] = (laneIx == 0) ? 1 : 0;
+                gColor_subblocks[laneIx] = 0;
+                break;
         }
 
         gMip_widths[laneIx] = (laneIx == 0) ? width : (laneIx < num_mips) ? (((width * 4) / (2u << (laneIx - 1))) + 3) / 4 : 0;
@@ -906,8 +960,10 @@ struct ConditionerParams
             uint mippitch = gMip_pitches[m];
             uint mipheight = gMip_heights[m];
             uint mipwidth = gMip_widths[m];
-            if (m < laneIx) gOffsets_mipbytes[laneIx] += (mippitch * mipheight);
-            if (m < laneIx) gOffsets_mipblocks[laneIx] += (mipwidth * mipheight);
+            if (m < laneIx)
+                gOffsets_mipbytes[laneIx] += (mippitch * mipheight);
+            if (m < laneIx)
+                gOffsets_mipblocks[laneIx] += (mipwidth * mipheight);
         }
 
         num_blocks = gOffsets_mipblocks[num_mips];
@@ -918,8 +974,10 @@ struct ConditionerParams
         for (uint s = 0; s <= num_subblocks; ++s)
         {
             uint sbsize = gSizes_subblocks[s];
-            if (s < laneIx) gOffsets_subblocks[laneIx] += sbsize;
-            if (s < laneIx) gOffsets_substreams[laneIx] += sbsize * num_blocks;
+            if (s < laneIx)
+                gOffsets_subblocks[laneIx] += sbsize;
+            if (s < laneIx)
+                gOffsets_substreams[laneIx] += sbsize * num_blocks;
         }
     }
 
@@ -929,9 +987,9 @@ struct ConditionerParams
         for (uint i = 0; i < num_subblocks; ++i)
         {
             uint off = gOffsets_substreams[i];
-            if (ptr >= off) sub = i;
+            if (ptr >= off)
+                sub = i;
         }
-
         return sub;
     }
 
@@ -941,9 +999,9 @@ struct ConditionerParams
         for (uint i = 0; i < num_mips; ++i)
         {
             uint moff = gOffsets_mipblocks[i];
-            if (ptr >= moff * sbsize) mip = i;
+            if (ptr >= moff * sbsize)
+                mip = i;
         }
-
         return mip;
     }
 
@@ -970,7 +1028,6 @@ struct ConditionerParams
                 break;
             }
         }
-
         return hasColor;
     }
 };
@@ -978,42 +1035,42 @@ struct ConditionerParams
 uint DeconditionPtr(uint addr, ConditionerParams dcparams)
 {
     addr -= dcparams.streamoff;
-    uint sub            = dcparams.GetSub(addr);
-    uint soffset        = gOffsets_substreams[sub],
-         sbsize         = gSizes_subblocks[sub],
-         sboffset       = gOffsets_subblocks[sub];
+    uint sub = dcparams.GetSub(addr);
+    uint soffset = gOffsets_substreams[sub],
+         sbsize = gSizes_subblocks[sub],
+         sboffset = gOffsets_subblocks[sub];
 
-    uint offsetAddr     = addr - soffset;
+    uint offsetAddr = addr - soffset;
 
-    uint mip            = dcparams.GetMip(offsetAddr, sbsize);
-    uint moffset_block  = gOffsets_mipblocks[mip],
-         mip_pos        = gOffsets_mipbytes[mip],
-         mip_width      = gMip_widths[mip],
-         mip_height     = gMip_heights[mip],
-         mip_pitch      = gMip_pitches[mip];
+    uint mip = dcparams.GetMip(offsetAddr, sbsize);
+    uint moffset_block = gOffsets_mipblocks[mip],
+         mip_pos = gOffsets_mipbytes[mip],
+         mip_width = gMip_widths[mip],
+         mip_height = gMip_heights[mip],
+         mip_pitch = gMip_pitches[mip];
 
     offsetAddr -= (moffset_block * sbsize);
 
-    bool isMipSwizzled  = (dcparams.isSwizzled) && (mip_width >= BROTLIG_PRECON_SWIZZLE_REGION_SIZE && mip_height >= BROTLIG_PRECON_SWIZZLE_REGION_SIZE);
-    uint rem_width      = mip_width % BROTLIG_PRECON_SWIZZLE_REGION_SIZE,
-         rem_height     = mip_height % BROTLIG_PRECON_SWIZZLE_REGION_SIZE,
-         eff_width      = mip_width - rem_width,
-         eff_height     = mip_height - rem_height;
+    bool isMipSwizzled = (dcparams.isSwizzled) && (mip_width >= BROTLIG_PRECON_SWIZZLE_REGION_SIZE && mip_height >= BROTLIG_PRECON_SWIZZLE_REGION_SIZE);
+    uint rem_width = mip_width % BROTLIG_PRECON_SWIZZLE_REGION_SIZE,
+         rem_height = mip_height % BROTLIG_PRECON_SWIZZLE_REGION_SIZE,
+         eff_width = mip_width - rem_width,
+         eff_height = mip_height - rem_height;
 
-    uint block          = offsetAddr / sbsize;
-    uint row            = block / mip_width;
-    uint col            = block % mip_width;
+    uint block = offsetAddr / sbsize;
+    uint row = block / mip_width;
+    uint col = block % mip_width;
 
     if (isMipSwizzled && (row < eff_height && col < eff_width))
     {
-        uint eff_block      = block - (row * rem_width);
+        uint eff_block = block - (row * rem_width);
         uint blockGrp_width = eff_width / BROTLIG_PRECON_SWIZZLE_REGION_SIZE;
 
-        uint blockGrp       = eff_block / (BROTLIG_PRECON_SWIZZLE_REGION_SIZE * BROTLIG_PRECON_SWIZZLE_REGION_SIZE);
-        uint blockInGrp     = eff_block % (BROTLIG_PRECON_SWIZZLE_REGION_SIZE * BROTLIG_PRECON_SWIZZLE_REGION_SIZE);
+        uint blockGrp = eff_block / (BROTLIG_PRECON_SWIZZLE_REGION_SIZE * BROTLIG_PRECON_SWIZZLE_REGION_SIZE);
+        uint blockInGrp = eff_block % (BROTLIG_PRECON_SWIZZLE_REGION_SIZE * BROTLIG_PRECON_SWIZZLE_REGION_SIZE);
 
-        uint oblockGrpRow   = blockGrp / blockGrp_width;
-        uint oblockGrpCol   = blockGrp % blockGrp_width;
+        uint oblockGrpRow = blockGrp / blockGrp_width;
+        uint oblockGrpCol = blockGrp % blockGrp_width;
 
         uint oblockRowInGrp = blockInGrp / BROTLIG_PRECON_SWIZZLE_REGION_SIZE;
         uint oblockColInGrp = blockInGrp % BROTLIG_PRECON_SWIZZLE_REGION_SIZE;
@@ -1026,7 +1083,6 @@ uint DeconditionPtr(uint addr, ConditionerParams dcparams)
     uint byte_pos = offsetAddr % sbsize;
 
     uint r = dcparams.streamoff + mip_pos + block_pos + sboffset + byte_pos;
-
     return r;
 }
 
@@ -1066,12 +1122,13 @@ struct LengthCode24
         min16uint base, extra;
         uint bitCnt = countbits(bitDelta & MaskLsbs(laneIx));
         uint extCnt = countbits(extDelta & MaskLsbs(laneIx));
-        extra = min16uint (laneIx < 24 - 1 ? bitCnt + extCnt : 24);
-        uint range = uint (min16uint (1) << extra);
-        base = min16uint (bias + WavePrefixSum(range));
-        extraHIbaseLO = uint (base) | (uint (extra) << 16);
+        extra = min16uint(laneIx < 24 - 1 ? bitCnt + extCnt : 24);
+        uint range = uint(min16uint(1) << extra);
+        base = min16uint(bias + WavePrefixSum(range));
+        extraHIbaseLO = uint(base) | (uint(extra) << 16);
     }
 };
+
 static LengthCode24 insertLengthCode, copyLengthCode;
 
 struct Decoder
@@ -1095,16 +1152,16 @@ struct Decoder
     {
         CmdLut result = { 0, 0, 0, 0, 0, 0 };
 
-        en = en && (icp_code != min16uint (BROTLIG_EOS_COMMAND_SYMBOL));
+        en = en && (icp_code != min16uint(BROTLIG_EOS_COMMAND_SYMBOL)); // 704
 
-        bool ec = en && icp_code < min16uint (BROTLIG_EOS_COMMAND_SYMBOL);
-        uint ic = icp_code - min16uint (BROTLIG_EOS_COMMAND_SYMBOL);
+        bool ec = en && icp_code < min16uint(BROTLIG_EOS_COMMAND_SYMBOL); // 0..703
+        uint ic = icp_code - min16uint(BROTLIG_EOS_COMMAND_SYMBOL); // 705..728 -> 1..24
 
         uint copyCode = 0, insertCode = 0;
         if (en)
         {
-            min16uint copyLsbs = min16uint (icp_code >> 0) & MaskLsbs16(3);
-            min16uint insertLsbs = min16uint (icp_code >> 3) & MaskLsbs16(3);
+            min16uint copyLsbs = min16uint(icp_code >> 0) & MaskLsbs16(3);
+            min16uint insertLsbs = min16uint(icp_code >> 3) & MaskLsbs16(3);
 
             icp_code >>= 6;
 
@@ -1136,18 +1193,17 @@ struct Decoder
     BrotligCmd decodecommand(inout DecoderState bs, uint laneIx, bool en)
     {
         BrotligCmd cmd;
-
         CmdLut clut = { 0, 0, 0, 0, 0, 0 };
         min16uint len = 0;
 
-        cmd.icp_code = en ? min16uint (bs.GetBits(BROTLIG_MAX_HUFFMAN_CODE_BITSIZE)) : 0;
+        cmd.icp_code = en ? min16uint(bs.GetBits(BROTLIG_MAX_HUFFMAN_CODE_BITSIZE)) : 0;
         cmd.icp_code = decodeicp(cmd.icp_code, len, laneIx);
         cmd.icp_code = en ? cmd.icp_code : 0;
 
-        uint cutoff_mask = WaveActiveBallot(cmd.icp_code == min16uint (BROTLIG_EOS_COMMAND_SYMBOL)).x;
+        uint cutoff_mask = WaveActiveBallot(cmd.icp_code == min16uint(BROTLIG_EOS_COMMAND_SYMBOL)).x;
         uint cutoff_ix = firstbitlow(cutoff_mask);
         bool cutoff = laneIx > cutoff_ix;
-        cmd.icp_code = cutoff ? min16uint (BROTLIG_EOS_COMMAND_SYMBOL) : cmd.icp_code;
+        cmd.icp_code = cutoff ? min16uint(BROTLIG_EOS_COMMAND_SYMBOL) : cmd.icp_code;
         len = cutoff ? 0 : len;
 
         bs.DropBits(len, en);
@@ -1164,10 +1220,9 @@ struct Decoder
 
     min16uint decodeliteral(inout DecoderState bs, bool en, uint laneIx)
     {
-        min16uint lsymbol = en ? min16uint (bs.GetBits(BROTLIG_MAX_HUFFMAN_CODE_BITSIZE)) : 0;
-
+        min16uint lsymbol = en ? min16uint(bs.GetBits(BROTLIG_MAX_HUFFMAN_CODE_BITSIZE)) : 0;
         min16uint len = 0;
-        // decode literal
+
         lsymbol = decodelit(lsymbol, len, laneIx);
         bs.DropBits(len, en);
 
@@ -1178,7 +1233,8 @@ struct Decoder
     {
         min16uint dsymbol = 0;
         min16uint len = 0;
-        min16uint code = p ? min16uint (bs.GetBits(BROTLIG_MAX_HUFFMAN_CODE_BITSIZE)) : 0;
+        min16uint code = p ? min16uint(bs.GetBits(BROTLIG_MAX_HUFFMAN_CODE_BITSIZE)) : 0;
+
         dsymbol = decodedis(code, len, laneIx);
         bs.DropBits(len, p);
 
@@ -1190,9 +1246,7 @@ static uint64_t distringbuffer;
 
 void InitDistRingBuffer(uint laneIx)
 {
-    // distringbuffer = (((((16ULL << 16) | 15ULL) << 16) | 11) << 16) | 4;
-    // 0x0010000f000b0004ULL;
-    distringbuffer = (((((16ULL << 16) | 15ULL) << 16) | 11) << 16) | 4;
+    distringbuffer = 0x0010000f000b0004ULL;
 }
 
 void ReadHuffmanCode(inout DecoderState bs)
@@ -1209,7 +1263,7 @@ min16uint ResolveDistances(uint sym, inout DecoderState bs, DecoderParams dparam
     bool fetch = immed && (dparams.n_direct == 0 || sym >= 16 + dparams.n_direct);
     min16uint ix = BitTable(sym, 2, 0x555000e4U);
     min16uint offset = BitTable(sym, 4, 0x7162537162534444ULL);
-    min16uint dist = immed && !fetch ? sym - 15 : p ? min16uint (distringbuffer) : 0;
+    min16uint dist = immed && !fetch ? sym - 15 : p ? min16uint(distringbuffer) : 0;
 
     bool update = sym != 0;
     if (fetch)
@@ -1219,13 +1273,12 @@ min16uint ResolveDistances(uint sym, inout DecoderState bs, DecoderParams dparam
         min16uint lcode = MaskLsbs(param, dparams.npostfix);
 
         min16uint ndistbits = 1 + (hcode >> 1);
-
-        min16uint extra = min16uint (bs.GetAndDropBits(ndistbits, true));
-
+        min16uint extra = min16uint(bs.GetAndDropBits(ndistbits, true));
 
         min16uint offset = ((2 + (hcode & 1)) << ndistbits) - 4;
         dist = ((offset + extra) << dparams.npostfix) + lcode + dparams.n_direct + 1;
     }
+
     uint umask = WaveActiveBallot(update).x;
     uint smask = WaveActiveBallot(stack).x;
 
@@ -1233,7 +1286,6 @@ min16uint ResolveDistances(uint sym, inout DecoderState bs, DecoderParams dparam
     while (mask)
     {
         uint lane = firstbitlow(mask);
-
         uint lmsk = 1u << lane;
         mask &= ~lmsk;
 
@@ -1241,45 +1293,50 @@ min16uint ResolveDistances(uint sym, inout DecoderState bs, DecoderParams dparam
         min16uint off = WaveReadLaneAt(offset, lane);
         min16uint tmp = WaveReadLaneAt(dist, lane);
 
-        bool takefromstack = (lane == laneIx && stack) |
-            (lane < laneIx && !update);
+        bool takefromstack = (lane == laneIx && stack) | (lane < laneIx && !update);
 
-        min16uint reg = min16uint (distringbuffer >> (idx * 16));
-
+        min16uint reg = min16uint(distringbuffer >> (idx * 16));
         reg += off - 4;
         reg = smask & lmsk ? reg : tmp;
 
         dist = takefromstack ? reg : dist;
 
-        min16uint2 s = umask & lmsk ? min16uint2 (reg, 16) : 0;
-
+        min16uint2 s = umask & lmsk ? min16uint2(reg, 16) : 0;
         distringbuffer = (distringbuffer << s.y) | s.x;
     }
     return dist;
 }
 
-uint dic2bit12(min16uint a) { return a; /* uint ((a & 0xff) | ((a & 0xf000) >> 4)); */ }
+uint dic2bit12(min16uint a)
+{
+    return a;
+}
 
 uint shiftbytes(uint a, uint b, uint sh)
 {
-    return uint (((uint64_t(b) << 32) | uint64_t(a)) >> (sh << BYTE_TOTAL_BITS));
+    return uint(((uint64_t(b) << 32) | uint64_t(a)) >> (sh << BYTE_TOTAL_BITS));
 }
 
-uint shiftbytes(uint2 a, uint sh) { return shiftbytes(a.x, a.y, sh); }
+uint shiftbytes(uint2 a, uint sh)
+{
+    return shiftbytes(a.x, a.y, sh);
+}
 
 groupshared uint scoreBoard[LOG_NUM_LANES];
 
 uint SpreadValue(uint v[LOG_NUM_LANES], uint mask, uint sum, bool en, uint laneIx)
 {
     uint result = 0;
-    int  i;
+    int i;
 
     if (laneIx < LOG_NUM_LANES)
         scoreBoard[laneIx] = 0;
+
     [unroll]
     for (i = 0; i < LOG_NUM_LANES; i++)
         if (en)
             InterlockedOr(scoreBoard[i], (v[i] & mask) << sum);
+
     [unroll]
     for (i = LOG_NUM_LANES - 1; i >= 0; i--)
         result |= ((scoreBoard[i] >> laneIx) & 1) << i;
@@ -1319,8 +1376,6 @@ uint SpreadLiterals(inout uint sum, inout uint numLit, inout uint offset, out ui
 static uint s_literalBuffer;
 static uint s_literalsKept = 0;
 
-#define BROTLIG_DEBUG_DECODE_DUMP_CMDS_DEBUG_PTR 0xfc8e
-
 void WriteLiterals(inout DecoderState d, uniform const uint wptr, uint numLit, uint offset)
 {
     const uint laneIx = d.LANE;
@@ -1329,8 +1384,9 @@ void WriteLiterals(inout DecoderState d, uniform const uint wptr, uint numLit, u
     uint endOffset = (NUM_LANES - s_literalsKept) % NUM_LANES;
     uint startIx = WavePrefixSum(numLit) + endOffset;
     uint written, writeoff;
+    uint iterGuard = 0;
 
-    while (WaveActiveAnyTrue(numLit != 0))
+    while (WaveActiveAnyTrue(numLit != 0) && ++iterGuard < 4096)
     {
         if (s_literalsKept == 0)
             s_literalBuffer = dec.decodeliteral(d, true, laneIx);
@@ -1349,11 +1405,9 @@ void WriteLiterals(inout DecoderState d, uniform const uint wptr, uint numLit, u
 uint Decompress(inout DecoderState d, uint wptr, DecoderParams dParams, uint outlimit)
 {
     uint laneIx = d.LANE;
-
     Decoder dec;
 
     InitDistRingBuffer(laneIx);
-
     GroupMemoryBarrierWithGroupSync();
 
     uint neos = true;
@@ -1365,13 +1419,12 @@ uint Decompress(inout DecoderState d, uint wptr, DecoderParams dParams, uint out
     uint offset = 0;
 
     neos = length > 0;
-
     bool neob = WaveActiveAnyTrue(neos);
 
     uint literalsRead = 0;
-    uint byte;
+    uint iterGuard = 0;
 
-    while (WaveActiveAllTrue(wptr < outlimit))
+    while (WaveActiveAllTrue(wptr < outlimit) && ++iterGuard < 65536)
     {
         offset = WavePrefixSum(length);
 
@@ -1394,8 +1447,7 @@ uint Decompress(inout DecoderState d, uint wptr, DecoderParams dParams, uint out
         offset += numlits;
         writeptr += numlits;
 
-        wptr += WaveReadLaneAt(offset + uint (cmd.copy_len), NUM_LANES - 1);
-
+        wptr += WaveReadLaneAt(offset + uint(cmd.copy_len), NUM_LANES - 1);
         cmd.copy_len = min(cmd.copy_len, max(outlimit, writeptr) - writeptr);
 
         uint mask = WaveActiveBallot(neos).x;
@@ -1408,6 +1460,9 @@ uint Decompress(inout DecoderState d, uint wptr, DecoderParams dParams, uint out
             uint length = WaveReadLaneAt(cmd.copy_len, i);
             uint outptr = WaveReadLaneAt(writeptr, i);
 
+            if (offset == 0 || length == 0)
+                continue;
+
             uint source = outptr - offset;
             uint target = outptr;
 
@@ -1419,11 +1474,9 @@ uint Decompress(inout DecoderState d, uint wptr, DecoderParams dParams, uint out
         }
 
         if (WaveActiveAnyTrue(length == 0))
-        {
             break;
-        }
-        cmd = dec.decodecommand(d, laneIx, neos);
 
+        cmd = dec.decodecommand(d, laneIx, neos);
         length = cmd.copy_len + cmd.insert_len;
         neos = length > 0;
         neob = WaveActiveAnyTrue(neos);
@@ -1439,8 +1492,9 @@ void DeconditionLiterals(inout DecoderState d, uniform const uint wptr, uint num
     uint endOffset = (NUM_LANES - s_literalsKept) % NUM_LANES;
     uint startIx = WavePrefixSum(numLit) + endOffset;
     uint written, writeoff;
+    uint iterGuard = 0;
 
-    while (WaveActiveAnyTrue(numLit != 0))
+    while (WaveActiveAnyTrue(numLit != 0) && ++iterGuard < 4096)
     {
         if (s_literalsKept == 0)
             s_literalBuffer = dec.decodeliteral(d, true, laneIx);
@@ -1450,7 +1504,7 @@ void DeconditionLiterals(inout DecoderState d, uniform const uint wptr, uint num
         bool mask = laneIx >= endOffset && laneIx < written;
         endOffset = written % NUM_LANES;
         s_literalsKept = WaveReadLaneFirst((NUM_LANES - endOffset) % NUM_LANES);
-		
+
         uint daddr = DeconditionPtr(wptr + writeoff, dcparams);
 
         if (mask)
@@ -1498,11 +1552,9 @@ void DeltaDecode(uint destination, ConditionerParams dcparams, uint outlimit, ui
 uint DecompressAndDecondition(inout DecoderState d, uint wptr, DecoderParams dParams, ConditionerParams dcparams, uint outlimit)
 {
     uint laneIx = d.LANE;
-
     Decoder dec;
 
     InitDistRingBuffer(laneIx);
-
     GroupMemoryBarrierWithGroupSync();
 
     uint neos = true;
@@ -1514,14 +1566,13 @@ uint DecompressAndDecondition(inout DecoderState d, uint wptr, DecoderParams dPa
     uint offset = 0;
 
     neos = length > 0;
-
     bool neob = WaveActiveAnyTrue(neos);
 
     uint literalsRead = 0;
-    uint byte;
     uint oWptr = wptr;
+    uint iterGuard = 0;
 
-    while (WaveActiveAllTrue(wptr < outlimit))
+    while (WaveActiveAllTrue(wptr < outlimit) && ++iterGuard < 65536)
     {
         offset = WavePrefixSum(length);
 
@@ -1544,8 +1595,7 @@ uint DecompressAndDecondition(inout DecoderState d, uint wptr, DecoderParams dPa
         offset += numlits;
         writeptr += numlits;
 
-        wptr += WaveReadLaneAt(offset + uint (cmd.copy_len), NUM_LANES - 1);
-
+        wptr += WaveReadLaneAt(offset + uint(cmd.copy_len), NUM_LANES - 1);
         cmd.copy_len = min(cmd.copy_len, max(outlimit, writeptr) - writeptr);
 
         uint mask = WaveActiveBallot(neos).x;
@@ -1558,6 +1608,9 @@ uint DecompressAndDecondition(inout DecoderState d, uint wptr, DecoderParams dPa
             uint length = WaveReadLaneAt(cmd.copy_len, i);
             uint outptr = WaveReadLaneAt(writeptr, i);
 
+            if (offset == 0 || length == 0)
+                continue;
+
             uint source = outptr - offset;
             uint target = outptr;
 
@@ -1569,11 +1622,9 @@ uint DecompressAndDecondition(inout DecoderState d, uint wptr, DecoderParams dPa
         }
 
         if (WaveActiveAnyTrue(length == 0))
-        {
             break;
-        }
-        cmd = dec.decodecommand(d, laneIx, neos);
 
+        cmd = dec.decodecommand(d, laneIx, neos);
         length = cmd.copy_len + cmd.insert_len;
         neos = length > 0;
         neob = WaveActiveAnyTrue(neos);
@@ -1680,7 +1731,6 @@ void DeserializeCompact(inout DecoderState bs, uint iSize)
     delta += baseSize;
 
     uint offset = WavePrefixSum(delta);
-
     uint readPtr = bs.readPointer - (bs.validBits / NUM_LANES) * DWORD_TOTAL_BYTES;
 
     bs.Init(readPtr + (offset / DWORD_TOTAL_BYTES) * DWORD_TOTAL_BYTES);
@@ -1710,7 +1760,7 @@ void Process(uint source, uint destination, uint inputSize, uint outputSize, Con
 
     if (Uncompressed(source, destination, inputSize, outputSize, dcparams, laneIx))
         return;
-        
+
     for (uint j = laneIx; j < DICTIONARY_COMPACT_TOTAL_SIZE; j += NUM_LANES)
         gDictionary[j] = 0;
 
@@ -1724,16 +1774,16 @@ void Process(uint source, uint destination, uint inputSize, uint outputSize, Con
 
     DecoderParams dparams = { 0, 0, 0 };
 
-    dparams.npostfix        = bs.GetAndDropBits(2, true);
-    dparams.n_direct        = bs.GetAndDropBits(4, true);
-    dparams.isDeltaEncoded  = bs.GetAndDropBits(1, true);
+    dparams.npostfix = bs.GetAndDropBits(2, true);
+    dparams.n_direct = bs.GetAndDropBits(4, true);
+    dparams.isDeltaEncoded = bs.GetAndDropBits(1, true);
     bs.DropBits(1, true);
 
     dparams.n_direct <<= dparams.npostfix;
 
-    dparams.npostfix        = WaveReadLaneFirst(dparams.npostfix);
-    dparams.n_direct        = WaveReadLaneFirst(dparams.n_direct);
-    dparams.isDeltaEncoded  = WaveReadLaneFirst(dparams.isDeltaEncoded);
+    dparams.npostfix = WaveReadLaneFirst(dparams.npostfix);
+    dparams.n_direct = WaveReadLaneFirst(dparams.n_direct);
+    dparams.isDeltaEncoded = WaveReadLaneFirst(dparams.isDeltaEncoded);
 
     DeserializeCompact(bs, inputSize);
     ReadHuffmanCode(bs);
@@ -1749,7 +1799,7 @@ struct WorkParams
     uint index, rptr, wptr, rsize, wsize;
 };
 
-//  stream/page descriptor as per benchmark app API
+// Stream/page descriptor as per benchmark app API
 [numthreads(NUM_LANES, 1, 1)]
 [RootSignature(_RootSig)]
 void CSMain(uint laneIx : SV_GroupThreadID)
@@ -1784,6 +1834,10 @@ void CSMain(uint laneIx : SV_GroupThreadID)
         lastPageRsize = WaveReadLaneAt(lastPageRsize, 2);
 
         const uint numPages = readControlWord1.bit(16, 31);
+
+        if (numPages == 0 || numPages > 65536)
+            break;
+
         const uint isPreconditioned = readControlWord2.bit(20, 20);
 
         uint precondata;
@@ -1796,7 +1850,7 @@ void CSMain(uint laneIx : SV_GroupThreadID)
 
             eControlWord1.d = WaveReadLaneAt(precondata, 0);
             eControlWord2.d = WaveReadLaneAt(precondata, 1);
-            lastPageRsize   = WaveReadLaneAt(precondata, 2);
+            lastPageRsize = WaveReadLaneAt(precondata, 2);
         }
 
         [allow_uav_condition]
@@ -1833,37 +1887,32 @@ void CSMain(uint laneIx : SV_GroupThreadID)
             page.wsize = page.index < numPages - 1 || !lastPageSize ? pageSize : lastPageSize;
             page.rptr += pageDesc + numPages * 4;
 
-            ConditionerParams dcparams = { 0, 0, 0, 0, 0, 0,
-                                           0, 0, 0, 0, 0, 0, 0 };
+            ConditionerParams dcparams = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
             if (isPreconditioned)
             {
                 dcparams.isPreconditioned = true;
 
-                dcparams.isSwizzled             = eControlWord1.bit(0, 0);
-                dcparams.isPitch_D3D12_aligned  = eControlWord1.bit(1, 1);
-                dcparams.width                  = eControlWord1.bit(2, 16);
-                dcparams.width                 += 1;
-                dcparams.height                 = eControlWord1.bit(17, 31);
-                dcparams.height                += 1;
+                dcparams.isSwizzled = eControlWord1.bit(0, 0);
+                dcparams.isPitch_D3D12_aligned = eControlWord1.bit(1, 1);
+                dcparams.width = eControlWord1.bit(2, 16) + 1;
+                dcparams.height = eControlWord1.bit(17, 31) + 1;
 
-                dcparams.format                 = eControlWord2.bit(0, 7);
-                dcparams.num_mips               = eControlWord2.bit(8, 12);
-                dcparams.num_mips              += 1;
-                dcparams.pitch                  = eControlWord2.bit(13, 31);
-                dcparams.pitch                 += 1;
+                dcparams.format = eControlWord2.bit(0, 7);
+                dcparams.num_mips = eControlWord2.bit(8, 12) + 1;
+                dcparams.pitch = eControlWord2.bit(13, 31) + 1;
 
-                dcparams.streamoff              = stream.wptr;
+                dcparams.streamoff = stream.wptr;
             }
 
-            dcparams.isPreconditioned           = WaveReadLaneFirst(dcparams.isPreconditioned);
-            dcparams.isSwizzled                 = WaveReadLaneFirst(dcparams.isSwizzled);
-            dcparams.width                      = WaveReadLaneFirst(dcparams.width);
-            dcparams.height                     = WaveReadLaneFirst(dcparams.height);
-            dcparams.format                     = WaveReadLaneFirst(dcparams.format);
-            dcparams.num_mips                   = WaveReadLaneFirst(dcparams.num_mips);
-            dcparams.pitch                      = WaveReadLaneFirst(dcparams.pitch);
-            dcparams.streamoff                  = WaveReadLaneFirst(dcparams.streamoff);
+            dcparams.isPreconditioned = WaveReadLaneFirst(dcparams.isPreconditioned);
+            dcparams.isSwizzled = WaveReadLaneFirst(dcparams.isSwizzled);
+            dcparams.width = WaveReadLaneFirst(dcparams.width);
+            dcparams.height = WaveReadLaneFirst(dcparams.height);
+            dcparams.format = WaveReadLaneFirst(dcparams.format);
+            dcparams.num_mips = WaveReadLaneFirst(dcparams.num_mips);
+            dcparams.pitch = WaveReadLaneFirst(dcparams.pitch);
+            dcparams.streamoff = WaveReadLaneFirst(dcparams.streamoff);
 
             Process(page.rptr, page.wptr, page.rsize, page.wsize, dcparams, laneIx);
         }
@@ -1871,7 +1920,7 @@ void CSMain(uint laneIx : SV_GroupThreadID)
         if (laneIx == 0)
         {
             int actualIndex;
-            //  because other wave could already have it decremented
+            // Because other wave could already have it decremented
             meta.InterlockedCompareExchange(0, stream.index, stream.index - 1, actualIndex);
 
             stream.index = actualIndex == stream.index ?

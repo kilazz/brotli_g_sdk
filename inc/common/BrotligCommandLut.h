@@ -1,5 +1,5 @@
 // Brotli-G SDK 1.1
-// 
+//
 // Copyright(c) 2022 - 2024 Advanced Micro Devices, Inc. All rights reserved.
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
@@ -27,17 +27,17 @@
 
 #include "common/BrotligConstants.h"
 
-namespace BrotliG
+namespace BrotliG {
+typedef struct BrotligCmdLutElement
 {
-    typedef struct BrotligCmdLutElement {
-        uint32_t insert_len_extra_bits;
-        uint32_t copy_len_extra_bits;
-        int32_t distance_code;
-        uint32_t context;
-        uint32_t insert_len_offset;
-        uint32_t copy_len_offset;
-    } BrotligCmdLutElement;
-
+    uint32_t insert_len_extra_bits;
+    uint32_t copy_len_extra_bits;
+    int32_t distance_code;
+    uint32_t context;
+    uint32_t insert_len_offset;
+    uint32_t copy_len_offset;
+} BrotligCmdLutElement;
+// clang-format off
     static const BrotligCmdLutElement sBrotligCmdLut[BROTLIG_NUM_COMMAND_SYMBOLS_WITH_SENTINEL] = {
       { 0, 0, 0, 0, 0, 2 },
       { 0, 0, 0, 1, 0, 3 },
@@ -744,6 +744,6 @@ namespace BrotliG
       { 24, 10, -1, 3, 22594, 1094 },
       { 24, 24, -1, 3, 22594, 2118 },
       { 0, 0, 0, 0, 0, 0 }    // sentinel
-    };
-}
-
+    // clang-format on
+};
+} // namespace BrotliG

@@ -1,5 +1,5 @@
 // Brotli-G SDK 1.1
-// 
+//
 // Copyright(c) 2022 - 2024 Advanced Micro Devices, Inc. All rights reserved.
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
@@ -27,8 +27,8 @@
 
 #include <cstdint>
 
-namespace BrotliG
-{
+namespace BrotliG {
+// clang-format off
     static const uint32_t sBrotligContextLookupTable[2048] = {
         /* CONTEXT_LSB6, last byte. */
          0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
@@ -179,5 +179,6 @@ namespace BrotliG
         5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
         5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
         6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7,
-    };
-}
+    // clang-format on
+};
+} // namespace BrotliG

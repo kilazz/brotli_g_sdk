@@ -1,5 +1,5 @@
 // Brotli-G SDK 1.1
-// 
+//
 // Copyright(c) 2022 - 2024 Advanced Micro Devices, Inc. All rights reserved.
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
@@ -20,18 +20,17 @@
 
 #include "common/BrotligCommon.h"
 #include "common/BrotligConstants.h"
-#include "common/BrotligFlags.h"
 #include "common/BrotligDataConditioner.h"
+#include "common/BrotligFlags.h"
 
-namespace BrotliG
-{
+namespace BrotliG {
 #ifdef __cplusplus
-    extern "C"
-    {
+extern "C" {
 #endif // __cplusplus
-        uint32_t BROTLIG_API DecompressedSize(uint8_t* src);
-        BROTLIG_ERROR BROTLIG_API DecodeCPU(uint32_t input_size, const uint8_t* src, uint32_t* output_size, uint8_t* output, BROTLIG_Feedback_Proc feedbackProc);
+uint32_t BROTLIG_API DecompressedSize(uint8_t* src);
+BROTLIG_ERROR BROTLIG_API DecodeCPU(uint32_t input_size, const uint8_t* src, uint32_t* output_size, uint8_t* output,
+                                    BROTLIG_Feedback_Proc feedbackProc);
 #ifdef __cplusplus
-    };
+};
 #endif // __cplusplus
-}
+} // namespace BrotliG

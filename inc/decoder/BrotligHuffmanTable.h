@@ -1,5 +1,5 @@
 // Brotli-G SDK 1.1
-// 
+//
 // Copyright(c) 2022 - 2024 Advanced Micro Devices, Inc. All rights reserved.
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
@@ -20,8 +20,8 @@
 #pragma once
 
 #include <map>
-#include <string>
 #include <queue>
+#include <string>
 
 extern "C" {
 #include "brotli/c/dec/huffman.h"
@@ -29,7 +29,6 @@ extern "C" {
 
 #include "common/BrotligDeswizzler.h"
 
-namespace BrotliG
-{
-    void LoadHuffmanTable(BrotligDeswizzler& reader, size_t alphabet_size, uint16_t symbols[], uint16_t codelens[]);
+namespace BrotliG {
+void LoadHuffmanTable(BrotligDeswizzler& reader, size_t alphabet_size, uint16_t symbols[], uint16_t codelens[]);
 }

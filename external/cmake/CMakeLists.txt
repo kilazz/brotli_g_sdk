@@ -1,5 +1,5 @@
 # Brotli-G SDK 1.1
-# 
+#
 # Copyright(c) 2022 - 2024 Advanced Micro Devices, Inc. All rights reserved.
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files(the "Software"), to deal
@@ -16,15 +16,15 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
- 
+
  cmake_minimum_required(VERSION 3.11)
- 
+
  message(STATUS "++++++++++++++++++ external CMAKE subfolder" )
- 
+
  #BrotliG Dependencies
- 
+
  project (brotlig)
- 
+
  if (NOT DEFINED BROTLI_PROJECT_DIR)
     get_filename_component(BROTLI_PROJECT_DIR ${CMAKE_CURRENT_LIST_DIR}/../../ ABSOLUTE)
 endif ()
