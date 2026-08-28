@@ -166,7 +166,15 @@ typedef struct BrotligCommand
             assert(combinedcode < BROTLI_NUM_COMMAND_SYMBOLS);
             return combinedcode;
         } else {
+            /* Specification: 5 Encoding of ... (last table) */
+            /* offset = 2 * index, where index is in range [0..8] */
             uint32_t offset = 2u * ((copycode >> 3u) + 3u * (inscode >> 3u));
+            /* All values in specification are K * 64,
+               where   K = [2, 3, 6, 4, 5, 8, 7, 9, 10],
+                   i + 1 = [1, 2, 3, 4, 5, 6, 7, 8,  9],
+               K - i - 1 = [1, 1, 3, 0, 0, 2, 0, 1,  2] = D.
+               All values in D require only 2 bits to encode.
+               Magic constant is shifted 6 bits left, to avoid final multiplication. */
             offset = (offset << 5u) + 0x40u + ((0x520D40u >> offset) & 0xC0u);
             uint16_t combinedcode = (uint16_t)(offset | bits64);
             assert(combinedcode < BROTLI_NUM_COMMAND_SYMBOLS);

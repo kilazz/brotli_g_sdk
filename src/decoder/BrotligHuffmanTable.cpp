@@ -10,12 +10,29 @@
 
 using namespace BrotliG;
 
-static const uint16_t FixedCodes[4][4] = {{0, 1, 0, 0}, {0, 2, 3, 0}, {0, 1, 2, 3}, {0, 2, 6, 7}};
+static const uint16_t FixedCodes[4][4] = {
+    // clang-format off
+    { 0, 1, 0, 0 },
+    { 0, 2, 3, 0 },
+    { 0, 1, 2, 3 },
+    { 0, 2, 6, 7 }
+    // clang-format on
+};
 
-static const uint16_t FixedCodelengths[4][4] = {{1, 1, 0, 0}, {1, 2, 2, 0}, {2, 2, 2, 2}, {1, 2, 3, 3}};
+static const uint16_t FixedCodelengths[4][4] = {
+    // clang-format off
+    { 1, 1, 0, 0 },
+    { 1, 2, 2, 0 },
+    { 2, 2, 2, 2 },
+    { 1, 2, 3, 3 }
+    // clang-format on
+};
 
-static const uint16_t DyanmicCodeLenReadOrder[BROTLI_CODE_LENGTH_CODES] = {1, 2, 3, 4,  0,  5,  17, 6,  16,
-                                                                           7, 8, 9, 10, 11, 12, 13, 14, 15};
+static const uint16_t DyanmicCodeLenReadOrder[BROTLI_CODE_LENGTH_CODES] = {
+    // clang-format off
+    1, 2, 3, 4, 0, 5, 17, 6, 16, 7, 8, 9, 10, 11, 12, 13, 14, 15
+    // clang-format on
+};
 
 void GenerateHuffmanTable(uint16_t lens[], size_t size, uint16_t counts[], uint16_t next_code[],
                           uint16_t numcodelengths, uint16_t symbols[], uint16_t codelens[], size_t max_table_entries)
